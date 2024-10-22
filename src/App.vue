@@ -5,6 +5,8 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+console.log("Base URL:", import.meta.env.BASE_URL); // Check the base URL
+</script>
 
 <style lang="scss" scoped></style>

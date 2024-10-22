@@ -7,7 +7,7 @@ export default defineConfig(({ mode }) => {
     const envDir = path.resolve(__dirname, `envs/${projectName}`);
     const env = loadEnv(mode, envDir);
     return {
-        base: env.VITE_BASE_URL || './',  // 確保相對路徑正確
+        base: env.VITE_BASE_URL ?? './',  // 確保相對路徑正確
         plugins: [vue()],
         build: {
             outDir: 'dist/CIB',
