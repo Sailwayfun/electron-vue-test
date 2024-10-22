@@ -19,7 +19,7 @@ app.on('ready', () => {
     if (process.env.NODE_ENV === 'development') {
         mainWindow.loadURL('http://localhost:5173');  // 開發環境指向 Vite 伺服器
     } else {
-        mainWindow.loadFile(path.join(__dirname, '../dist/CIB/index.html'));  // 指向打包後的文件
+        mainWindow.loadFile(path.join(__dirname, "..", "dist", "CIB", "index.html"));  // 指向打包後的文件
     }
 });
 
