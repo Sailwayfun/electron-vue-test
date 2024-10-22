@@ -11,8 +11,8 @@ let mainWindow;
 app.on('ready', () => {
     mainWindow = new BrowserWindow({
         webPreferences: {
-            nodeIntegration: true,
-            contextIsolation: false,
+            nodeIntegration: false,
+            contextIsolation: true,
         },
     });
 
