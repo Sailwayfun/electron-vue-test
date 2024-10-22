@@ -5,7 +5,7 @@ export default defineConfig({
     base: './',  // 確保相對路徑正確
     plugins: [vue()],
     build: {
-        outDir: 'dist',
+        outDir: 'dist/CIB',
     },
     resolve: {
         alias: {

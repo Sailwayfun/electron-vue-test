@@ -12,17 +12,17 @@
   "main": "src/electron-main.mjs",
   "scripts": {
     "dev": "NODE_ENV=development concurrently \"vite\" \"wait-on http://localhost:5173 && electron .\"",
-    "build": "vite build && electron-builder",
+    "build": "vite build && electron-builder --dir",
     "start": "electron ."
   },
   "build": {
     "appId": "com.example.yourapp",
     "files": [
-      "dist/**/*",
+      "dist/CIB/**/*",
       "src/electron-main.mjs"
     ],
     "directories": {
-      "output": "build"
+      "output": "dist/CIB"
     }
   },
   "keywords": [],
