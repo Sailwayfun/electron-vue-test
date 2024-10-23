@@ -13,6 +13,11 @@ const staticPath = path.join(__dirname, "..", "dist", projectName);
 
 app.use(express.static(staticPath));
 
+//hash router
+app.get('*', (req, res) => {
+    res.sendFile(staticPath);
+});
+
 const server = app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });

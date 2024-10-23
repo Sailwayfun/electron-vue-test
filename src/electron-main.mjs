@@ -11,11 +11,7 @@ app.on('ready', () => {
         },
     });
 
-    if (process.env.NODE_ENV === 'development') {
-        // setTimeout(() => {
-        mainWindow.loadURL('http://localhost:5173');  // 開發環境指向 Vite 伺服器
-        // }, 1000);
-    };
+    mainWindow.loadURL('http://localhost:5173');  // 開發環境指向 Vite 伺服器
 });
 
 app.on('window-all-closed', () => {
