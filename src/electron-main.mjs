@@ -1,10 +1,5 @@
 import { app, BrowserWindow } from 'electron';
-import { fileURLToPath } from 'node:url';
-import path from 'node:path';
-
-// 使用 import.meta.url 獲取當前目錄
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import * as server from "./server.mjs";
 
 let mainWindow;
 
@@ -17,14 +12,19 @@ app.on('ready', () => {
     });
 
     if (process.env.NODE_ENV === 'development') {
+        // setTimeout(() => {
         mainWindow.loadURL('http://localhost:5173');  // 開發環境指向 Vite 伺服器
-    } else {
-        mainWindow.loadFile(path.join(__dirname, "..", "dist", "CIB", "index.html"));  // 指向打包後的文件
-    }
+        // }, 1000);
+    };
 });
 
 app.on('window-all-closed', () => {
+    server.kill();
     if (process.platform !== 'darwin') {
         app.quit();
     }
+});
+
+app.on('before-quit', () => {
+    server.kill();
 });
