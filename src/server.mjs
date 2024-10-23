@@ -11,11 +11,15 @@ const app = express();
 const port = 5173;
 const staticPath = path.join(__dirname, "..", "dist", projectName);
 
+// Serve static files from the specified directory
 app.use(express.static(staticPath));
 
 //hash router
 app.get('*', (req, res) => {
-    res.sendFile(staticPath);
+    // Adjusted to send a specific file, e.g., index.html
+    res.sendFile(path.join(staticPath, 'index.html'), {
+        headers: { 'Content-Type': 'text/html' }
+    });
 });
 
 const server = app.listen(port, () => {
