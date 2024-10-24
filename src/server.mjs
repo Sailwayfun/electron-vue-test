@@ -24,10 +24,23 @@ app.get('*', (req, res) => {
 
 const server = app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
+
+    process.send('server-started');
 });
 
-export const kill = () => {
+// Handle shutdown
+process.on('SIGTERM', () => {
+    console.log('Received SIGTERM. Closing server...');
     server.close(() => {
-        console.log('Server closed');
+        console.log('Server closed.');
+        process.exit(0);
     });
-};
+});
+
+process.on('SIGINT', () => {
+    console.log('Received SIGINT. Closing server...');
+    server.close(() => {
+        console.log('Server closed.');
+        process.exit(0);
+    });
+});

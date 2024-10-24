@@ -1,7 +1,16 @@
 import { app, BrowserWindow } from 'electron';
-import * as server from "./server.mjs";
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { fork } from 'node:child_process';
 
 let mainWindow;
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const serverProcess = fork(path.join(__dirname, 'server.mjs'), {
+    shell: true,
+});
 
 app.on('ready', () => {
     mainWindow = new BrowserWindow({
@@ -11,16 +20,21 @@ app.on('ready', () => {
         },
     });
 
-    mainWindow.loadURL('http://localhost:5173');  // 開發環境指向 Vite 伺服器
+    serverProcess.on('message', (message) => {
+        if (message === 'server-started') {
+            mainWindow.loadURL('http://localhost:5173');
+        }
+    });
 });
 
+// Handle app close events
 app.on('window-all-closed', () => {
-    server.kill();
+    serverProcess.kill();
     if (process.platform !== 'darwin') {
         app.quit();
     }
 });
 
 app.on('before-quit', () => {
-    server.kill();
+    serverProcess.kill();
 });
