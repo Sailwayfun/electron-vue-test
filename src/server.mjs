@@ -25,10 +25,18 @@ app.get('*', (req, res) => {
 
 const port = await getPort({ port: portNumbers(40000, 50000) });
 
-const server = app.listen(port, () => {
+let server = app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 
     process.send({ port });
+});
+
+//error retry
+server.on("error", (err) => {
+    server = app.listen(Math.floor(Math.random() * (50000 - 40000 + 1)) + 40000, () => {
+        console.log(`Server is running on port ${port}`);
+        process.send({ port });
+    });
 });
 
 // Handle shutdown
