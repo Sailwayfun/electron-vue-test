@@ -8,9 +8,43 @@ let mainWindow;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const serverProcess = fork(path.join(__dirname, 'server.mjs'), {
-    shell: true,
-});
+let serverProcess;
+
+function restartServer() {
+    if (serverProcess) {
+        serverProcess.kill();
+    }
+    setTimeout(() => {
+        startServer();
+    }, 1000); // 延遲一秒重啟
+}
+
+function startServer() {
+    serverProcess = fork(path.join(__dirname, 'server.mjs'), {
+        shell: true,
+    });
+
+    // Handle messages from server process
+    serverProcess.on('message', (message) => {
+        if (message.port) {
+            mainWindow.loadURL(`http://localhost:${message.port}`);
+        }
+    });
+
+    // Restart server on error
+    serverProcess.on('error', (error) => {
+        console.error('Server encountered an error:', error);
+        restartServer();
+    });
+
+    // Restart server on unexpected exit
+    serverProcess.on('exit', (code, signal) => {
+        if (code !== 0) {
+            console.warn(`Server exited with code ${code}. Restarting...`);
+            restartServer();
+        }
+    });
+}
 
 app.on('ready', () => {
     mainWindow = new BrowserWindow({
@@ -20,11 +54,11 @@ app.on('ready', () => {
         },
     });
 
-    serverProcess.on('message', (message) => {
-        if (message.port) {
-            mainWindow.loadURL(`http://localhost:${message.port}`);
-        }
-    });
+    if (process.env.NODE_ENV === 'development') {
+        mainWindow.loadURL('http://localhost:5173');
+    } else {
+        startServer();
+    }
 });
 
 // Handle app close events
