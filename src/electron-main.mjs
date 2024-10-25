@@ -21,8 +21,8 @@ app.on('ready', () => {
     });
 
     serverProcess.on('message', (message) => {
-        if (message === 'server-started') {
-            mainWindow.loadURL('http://localhost:5173');
+        if (message.port) {
+            mainWindow.loadURL(`http://localhost:${message.port}`);
         }
     });
 });

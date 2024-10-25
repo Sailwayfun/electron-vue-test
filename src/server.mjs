@@ -1,6 +1,7 @@
 import express from 'express';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import getPort, { portNumbers } from "get-port";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -8,7 +9,7 @@ const __dirname = path.dirname(__filename);
 const projectName = 'CIB';
 
 const app = express();
-const port = 5173;
+// const port = 5173;
 const staticPath = path.join(__dirname, "..", "dist", projectName);
 
 // Serve static files from the specified directory
@@ -22,10 +23,12 @@ app.get('*', (req, res) => {
     });
 });
 
+const port = await getPort({ port: portNumbers(40000, 50000) });
+
 const server = app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 
-    process.send('server-started');
+    process.send({ port });
 });
 
 // Handle shutdown
