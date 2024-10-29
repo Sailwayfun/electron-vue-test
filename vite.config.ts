@@ -20,7 +20,7 @@ export default defineConfig(({ mode }) => {
       vue(),
       electron({
         main: {
-          entry: "src/electron-main.ts",
+          entry: ["src/electron-main.ts", "src/server.ts"],
           vite: {
             build: {
               sourcemap: isDev,

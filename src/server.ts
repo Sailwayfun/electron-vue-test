@@ -25,27 +25,31 @@ app.get("*", (req: Request, res: Response) => {
   });
 });
 
-const port: number = await getPort({ port: portNumbers(40000, 50000) });
+const startServer = async () => {
+  const port: number = await getPort({ port: portNumbers(40000, 50000) });
 
-const server: Server = app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+  const server: Server = app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
 
-  process.send?.({ port });
-});
-
-// Handle shutdown
-process.on("SIGTERM", () => {
-  console.log("Received SIGTERM. Closing server...");
-  server.close(() => {
-    console.log("Server closed.");
-    process.exit(0);
+    process.send?.({ port });
   });
-});
 
-process.on("SIGINT", () => {
-  console.log("Received SIGINT. Closing server...");
-  server.close(() => {
-    console.log("Server closed.");
-    process.exit(0);
+  // Handle shutdown
+  process.on("SIGTERM", () => {
+    console.log("Received SIGTERM. Closing server...");
+    server.close(() => {
+      console.log("Server closed.");
+      process.exit(0);
+    });
   });
-});
+
+  process.on("SIGINT", () => {
+    console.log("Received SIGINT. Closing server...");
+    server.close(() => {
+      console.log("Server closed.");
+      process.exit(0);
+    });
+  });
+};
+
+startServer();
