@@ -20,7 +20,7 @@ function restartServer() {
 }
 
 function startServer() {
-  serverProcess = fork(path.join(__dirname, "../dist/CIB/electron/server.js")); //shell option is ignored by node by default
+  serverProcess = fork(path.join(__dirname, "server.js")); //shell option is ignored by node by default
 
   // Handle messages from server process
   serverProcess.on("message", (message: { port: number }) => {

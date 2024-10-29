@@ -1,0 +1,8 @@
+{
+  "appId": "com.example.yourapp",
+  "files": ["dist/CIB/renderer/**/*", "dist/CIB/electron/**/*"],
+  "directories": {
+    "output": "dist/app"
+  },
+  "asarUnpack": ["dist/CIB/renderer/**/*/*.png", "dist/CIB/renderer/**/*/*.svg"]
+}

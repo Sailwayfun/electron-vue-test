@@ -19,23 +19,10 @@
   "type": "module",
   "scripts": {
     "dev": "NODE_ENV=development concurrently \"vite --mode development\" \"wait-on http://localhost:5173 && electron .\"",
-    "build": "NODE_ENV=production_aws vue-tsc --noEmit && vite build --mode production_aws && electron-builder --dir",
-    "build:frontend": "NODE_ENV=production_aws vue-tsc --noEmit && vite build --mode production_aws",
+    "build": "NODE_ENV=production_aws vue-tsc --noEmit && vite build --config electron.vite.config.ts --mode production_aws && electron-builder --config electron-builder.config.json --dir",
+    "build:frontend": "NODE_ENV=production_aws vue-tsc --noEmit && vite build --config vite.config.ts --mode production_aws",
     "start": "electron .",
     "preview": "vite preview"
-  },
-  "build": {
-    "appId": "com.example.yourapp",
-    "files": [
-      "dist/**/*"
-    ],
-    "directories": {
-      "output": "dist/CIB"
-    },
-    "asarUnpack": [
-      "dist/CIB/**/*/*.png",
-      "dist/CIB/**/*/*.svg"
-    ]
   },
   "keywords": [],
   "author": "",

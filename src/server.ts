@@ -12,7 +12,7 @@ const projectName: string = "CIB";
 
 const app: express.Application = express();
 // const port = 5173;
-const staticPath: string = path.join(__dirname, "..", "dist", projectName);
+const staticPath: string = path.join(__dirname, "..", "renderer");
 
 // Serve static files from the specified directory
 app.use(express.static(staticPath));
