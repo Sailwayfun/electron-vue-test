@@ -27,9 +27,7 @@
   "build": {
     "appId": "com.example.yourapp",
     "files": [
-      "dist/CIB/**/*",
-      "dist/CIB/electron/electron-main.js",
-      "dist/CIB/electron/server.js"
+      "dist/**/*"
     ],
     "directories": {
       "output": "dist/CIB"

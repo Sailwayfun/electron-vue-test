@@ -16,6 +16,9 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, envDir);
   return {
     base: env.VITE_BASE_URL ?? "./", // 確保相對路徑正確
+    build: {
+      outDir: "dist/CIB",
+    },
     plugins: [
       vue(),
       electron({
